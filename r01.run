@@ -1,0 +1,73 @@
+reset;
+
+model case01.mod;
+include nima02.INIVAL;
+option solver ipopt;
+solve;
+
+
+shell ("del " & ("tf.txt"));
+shell ("del " & ("NE.txt"));
+shell ("del " & ("x.txt"));
+shell ("del " & ("y.txt"));
+shell ("del " & ("t.txt"));
+shell ("del " & ("a.txt"));
+shell ("del " & ("w.txt"));
+shell ("del " & ("v.txt"));
+shell ("del " & ("p.txt"));
+
+for {ooxx in {1..NC}} {
+	for {i in {1..NE}} {
+		for {j in {0..3}} {
+			printf "%5.8f; ",  x[i,j,ooxx]>>("x.txt");
+			printf "%5.8f; ",  y[i,j,ooxx]>>("y.txt");
+			printf "%5.8f; ",  theta[i,j,ooxx]>>("t.txt");
+			printf "%5.8f; ",  a[i,j,ooxx]>>("a.txt");
+			printf "%5.8f; ",  w[i,j,ooxx]>>("w.txt");
+			printf "%5.8f; ",  v[i,j,ooxx]>>("v.txt");
+			printf "%5.8f; ",  phy[i,j,ooxx]>>("p.txt");
+		}
+	}
+}
+
+printf "%5.8f; ",  NE>>("NE.txt");
+printf "%5.8f; ",  tf>>("tf.txt");
+
+close ("t.txt");
+close ("tf.txt");
+close ("NE.txt");
+close ("x.txt");
+close ("y.txt");
+
+close ("a.txt");
+close ("w.txt");
+close ("tf.txt");
+close ("v.txt");
+close ("p.txt");
+
+
+shell ("del " & ("nima02.INIVAL"));
+for {ooxx in {1..NC}} {
+	for {i in I} {
+		for {j in K} {		
+			printf "let x[%d,%d,%d]:=  %5.8f; \n",  i,j,ooxx,x[i,j,ooxx]>>("nima02.INIVAL");
+			printf "let y[%d,%d,%d]:=  %5.8f; \n",  i,j,ooxx,y[i,j,ooxx]>>("nima02.INIVAL");
+			printf "let theta[%d,%d,%d]:=  %5.8f; \n",  i,j,ooxx,theta[i,j,ooxx]>>("nima02.INIVAL");
+			printf "let v[%d,%d,%d]:=  %5.8f; \n",  i,j,ooxx,v[i,j,ooxx]>>("nima02.INIVAL");
+			printf "let phy[%d,%d,%d]:=  %5.8f; \n",  i,j,ooxx,phy[i,j,ooxx]>>("nima02.INIVAL");
+			printf "let a[%d,%d,%d]:=  %5.8f; \n",  i,j,ooxx,a[i,j,ooxx]>>("nima02.INIVAL");
+			printf "let w[%d,%d,%d]:=  %5.8f; \n",  i,j,ooxx,w[i,j,ooxx]>>("nima02.INIVAL");
+			printf "let x0[%d,%d,%d]:=  %5.8f; \n",  i,j,ooxx,x0[i,j,ooxx]>>("nima02.INIVAL");
+			printf "let y0[%d,%d,%d]:=  %5.8f; \n",  i,j,ooxx,y0[i,j,ooxx]>>("nima02.INIVAL");
+		}	
+	}
+}
+
+
+for {i in I} {
+		for {j in K} {		
+			printf "let energy[%d,%d]:=  %5.8f; \n", i,j, energy[i,j]>>("nima02.INIVAL");
+		}	
+	}
+printf "let tf:=  %5.8f; \n", tf>>("nima02.INIVAL");
+close ("nima02.INIVAL");

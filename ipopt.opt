@@ -1,0 +1,10 @@
+max_iter 3000
+tol 1e-6
+
+bound_push                                  0.0001     # 0.00067508335549
+#mu_strategy				    adaptive
+#mu_strategy					monotone
+#mu_init						0.1
+linear_solver                                     ma57
+
+
